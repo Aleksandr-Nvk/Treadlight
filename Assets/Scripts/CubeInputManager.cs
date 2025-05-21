@@ -51,19 +51,15 @@ public class CubeInputManager : MonoBehaviour
         switch (diff.x)
         {
             case >= 0 when diff.y >= 0:
-                Debug.Log("Swipe top-right");
                 OnTopRightSwipe.Invoke();
                 break;
             case >= 0 when diff.y < 0:
-                Debug.Log("Swipe bottom-right");
                 OnBottomRightSwipe.Invoke();
                 break;
             case < 0 when diff.y >= 0:
-                Debug.Log("Swipe top-left");
                 OnTopLeftSwipe.Invoke();
                 break;
             case < 0 when diff.y < 0:
-                Debug.Log("Swipe bottom-left");
                 OnBottomLeftSwipe.Invoke();
                 break;
         }
