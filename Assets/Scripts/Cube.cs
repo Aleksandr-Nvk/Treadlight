@@ -21,13 +21,12 @@ public class Cube : MonoBehaviour
     }
 
     private bool _isMovementBlocked = false;
-        
     private void Move(MoveType moveType)
     {
         if (_isMovementBlocked) return;
         
         var endPosition = transform.parent.position;
-        var endRotation = transform.rotation.eulerAngles; // bottom-left, top-left, bottom-left
+        var endRotation = transform.rotation.eulerAngles;
         switch (moveType)
         {
             case MoveType.TopRight:
