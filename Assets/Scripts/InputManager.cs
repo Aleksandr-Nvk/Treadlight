@@ -1,9 +1,9 @@
 ﻿using System;
 using UnityEngine;
 
-public class CubeInputManager : MonoBehaviour
+public class InputManager : MonoBehaviour
 {
-    private const float SwipeThreshold = 50; // minimum swipe length in pixels
+    private const float SwipeThreshold = 50;
 
     private CubeInputSystem _inputSystem;
 
@@ -12,7 +12,7 @@ public class CubeInputManager : MonoBehaviour
     public Action OnBottomRightSwipe;
     public Action OnBottomLeftSwipe;
 
-    public void Init()
+    public void Awake()
     {
         _inputSystem = new CubeInputSystem();
     }

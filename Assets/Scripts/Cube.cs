@@ -3,21 +3,17 @@ using UnityEngine;
 
 public class Cube : MonoBehaviour
 {
+    [SerializeField]
+    private InputManager InputManager;
+    
     private const float AnimationDuration = 0.25f;
-
-    private CubeInputManager _inputManager;
-
-    public void Init(CubeInputManager inputManager)
-    {
-        _inputManager = inputManager;
-    }
-
+    
     private void Awake()
     {
-        _inputManager.OnTopRightSwipe += () => Move(MoveType.TopRight);
-        _inputManager.OnTopLeftSwipe += () => Move(MoveType.TopLeft);
-        _inputManager.OnBottomRightSwipe += () => Move(MoveType.BottomRight);
-        _inputManager.OnBottomLeftSwipe += () => Move(MoveType.BottomLeft);
+        InputManager.OnTopRightSwipe += () => Move(MoveType.TopRight);
+        InputManager.OnTopLeftSwipe += () => Move(MoveType.TopLeft);
+        InputManager.OnBottomRightSwipe += () => Move(MoveType.BottomRight);
+        InputManager.OnBottomLeftSwipe += () => Move(MoveType.BottomLeft);
     }
 
     private bool _isMovementBlocked = false;
