@@ -490,6 +490,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   InputManager: {fileID: 491994551}
+  TerrainGenerator: {fileID: 1889215842}
 --- !u!23 &1764732570
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -603,7 +604,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TilePool: {fileID: 1376512258}
-  Cube: {fileID: 1764732568}
 --- !u!1 &1951138612
 GameObject:
   m_ObjectHideFlags: 0

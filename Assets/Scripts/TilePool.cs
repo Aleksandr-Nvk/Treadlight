@@ -13,7 +13,7 @@ public class TilePool : MonoBehaviour
     [SerializeField]
     private GameObject HoleGroundTile;
 
-    private readonly Dictionary<TileType, Queue<Tile>> _pool = new(TerrainGenerator.InitGridWidth * TerrainGenerator.InitGridLength);
+    private readonly Dictionary<TileType, Queue<Tile>> _pool = new();
 
     private void Awake()
     {

@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using DG.Tweening;
 using UnityEngine;
 
@@ -6,8 +7,9 @@ public class Cube : MonoBehaviour
 {
     [SerializeField]
     private InputManager InputManager;
-
-    public Action<MoveType> OnCubeMoved;
+    
+    [SerializeField]
+    private TerrainGenerator TerrainGenerator;
     
     private const float AnimationDuration = 0.25f;
     
@@ -48,6 +50,25 @@ public class Cube : MonoBehaviour
                 throw new ArgumentOutOfRangeException(nameof(moveType), moveType, null);
         }
 
+        var targetTile = TerrainGenerator.ActiveRows
+                                         .SelectMany(row => row)
+                                         .First(tile => tile.GameObject.transform.position == endPosition + Vector3.down);
+        switch (targetTile.Type)
+        {
+            case TileType.Regular:
+                Debug.Log("Safe");
+                break;
+            case TileType.Hole:
+                Debug.Log("Dead");
+                return;
+            case TileType.Border:
+            case TileType.Obstacle:
+                Debug.Log("Unavailable");
+                return;
+            default:
+                throw new ArgumentOutOfRangeException();
+        }
+
         _isMovementBlocked = true;
         transform.parent.DOMove(endPosition, AnimationDuration);
         transform.DOLocalRotate(endRotation, AnimationDuration) // TODO: rotate around ribs, not center
@@ -55,11 +76,10 @@ public class Cube : MonoBehaviour
                  {
                      transform.rotation = Quaternion.identity;
                      _isMovementBlocked = false;
-                     OnCubeMoved.Invoke(moveType);
                  });
     }
     
-    public enum MoveType
+    private enum MoveType
     {
         TopRight,
         TopLeft,

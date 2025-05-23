@@ -2,8 +2,8 @@
 
 public struct Tile
 {
-    public GameObject GameObject;
-    public TileType Type;
+    public readonly GameObject GameObject;
+    public readonly TileType Type;
 
     public Tile(GameObject gameObject, TileType type)
     {

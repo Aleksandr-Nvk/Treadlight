@@ -9,14 +9,11 @@ public class TerrainGenerator : MonoBehaviour
 {
     [SerializeField]
     private TilePool TilePool;
-    
-    [SerializeField]
-    private Cube Cube;
-    
-    public const int InitGridWidth = 24;
-    public const int InitGridLength = 70;
 
-    private const float TileGridAdvanceInterval = 0.35f;
+    private const int InitGridWidth = 24;
+    private const int InitGridLength = 70;
+
+    private const float TileGridAdvanceInterval = 1000000f; // TODO: reset to 0.35f
     
     private const float BorderVariationProbability = 0.1f;
     private readonly (TileType, float)[] _tileProbabilities = 
@@ -26,25 +23,14 @@ public class TerrainGenerator : MonoBehaviour
         (TileType.Regular, 0.9f)
     };
     
-    private readonly Queue<List<Tile>> _rows = new(InitGridLength);
-
-    public void Awake()
-    {
-        Cube.OnCubeMoved += moveType =>
-        {
-            if (moveType is Cube.MoveType.BottomLeft or Cube.MoveType.BottomRight)
-            {
-                //RemoveLastRow();
-            }
-        };
-    }
+    public readonly Queue<List<Tile>> ActiveRows = new(InitGridLength);
 
     public void Start()
     {
         for (var i = 0; i < InitGridLength; i++)
         {
             var row = SpawnRow(i);
-            _rows.Enqueue(row);
+            ActiveRows.Enqueue(row);
         }
 
         StartCoroutine(AdvanceTileGrid());
@@ -56,7 +42,7 @@ public class TerrainGenerator : MonoBehaviour
         {
             RemoveLastRow();
             var row = SpawnRow(i);
-            _rows.Enqueue(row);
+            ActiveRows.Enqueue(row);
             yield return new WaitForSeconds(TileGridAdvanceInterval);
         }
     }
@@ -87,7 +73,7 @@ public class TerrainGenerator : MonoBehaviour
     
     private void RemoveLastRow()
     {
-        foreach (var tile in _rows.Dequeue())
+        foreach (var tile in ActiveRows.Dequeue())
         {
             TilePool.RemoveTile(tile);
         }
