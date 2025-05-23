@@ -22,13 +22,11 @@ public class TerrainGenerator : MonoBehaviour
         (TileType.Obstacle, 0.05f),
         (TileType.Regular, 0.9f)
     };
+
+    private const float BorderVariationProbability = 0.1f;
     
     private const int InitGridWidth = 24;
     private const int InitGridLength = 70;
-
-    private const float HoleProbability = 0.05f;
-
-    private const float Proximity = 2f;
     
     private readonly List<List<Tile>> _rows = new(InitGridLength);
 
@@ -46,9 +44,15 @@ public class TerrainGenerator : MonoBehaviour
         var row = new List<Tile>(InitGridWidth);
         for (var i = 0; i < InitGridWidth; i++)
         {
-            var tileType = i is 0 or InitGridWidth - 1
-                ? TileType.Border
-                : GetRouletteTileType(_tileProbabilities);
+            var tileType = i switch
+            {
+                0 or InitGridWidth - 1 => TileType.Border,
+                1 or InitGridWidth - 2 => Random.value <= BorderVariationProbability
+                    ? TileType.Border
+                    : GetRouletteTileType(_tileProbabilities),
+                _ => GetRouletteTileType(_tileProbabilities)
+            };
+
             var tile = SpawnTile(x + InitGridWidth - i, z + i + 1, tileType);
             row.Add(tile);
         }
