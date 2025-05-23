@@ -410,6 +410,54 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Target: {fileID: 1951138613}
+--- !u!1 &1376512257
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1376512259}
+  - component: {fileID: 1376512258}
+  m_Layer: 0
+  m_Name: Tile Pool
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1376512258
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1376512257}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e268719a67a14f62b1cd9e1a78272a57, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  RegularGroundTile: {fileID: 3359169112458025010, guid: 1a0f85ff3e8b8144681695d3965a70a2, type: 3}
+  BorderGroundTile: {fileID: 3359169112458025010, guid: b9ada0b16d6c5124e96afdeebdc7503f, type: 3}
+  ObstacleGroundTile: {fileID: 3359169112458025010, guid: 32d55e78cc9cdfc43b826fa50551cb55, type: 3}
+  HoleGroundTile: {fileID: 7755914694181317411, guid: bb3b2e7ed2224a64e8418160805d21fa, type: 3}
+--- !u!4 &1376512259
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1376512257}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -51.83772, y: -92.95509, z: -72.24154}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1764732567
 GameObject:
   m_ObjectHideFlags: 0
@@ -554,10 +602,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a0896e7da00a5642bad2408df7acc54, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RegularGroundTile: {fileID: 3359169112458025010, guid: 1a0f85ff3e8b8144681695d3965a70a2, type: 3}
-  BorderGroundTile: {fileID: 3359169112458025010, guid: b9ada0b16d6c5124e96afdeebdc7503f, type: 3}
-  ObstacleGroundTile: {fileID: 3359169112458025010, guid: 32d55e78cc9cdfc43b826fa50551cb55, type: 3}
-  Cube: {fileID: 1951138613}
+  TilePool: {fileID: 1376512258}
+  Cube: {fileID: 1764732568}
 --- !u!1 &1951138612
 GameObject:
   m_ObjectHideFlags: 0
@@ -600,3 +646,4 @@ SceneRoots:
   - {fileID: 963194228}
   - {fileID: 705507995}
   - {fileID: 1951138613}
+  - {fileID: 1376512259}

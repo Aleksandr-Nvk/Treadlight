@@ -1,3 +1,4 @@
+using System;
 using DG.Tweening;
 using UnityEngine;
 
@@ -5,6 +6,8 @@ public class Cube : MonoBehaviour
 {
     [SerializeField]
     private InputManager InputManager;
+
+    public Action<MoveType> OnCubeMoved;
     
     private const float AnimationDuration = 0.25f;
     
@@ -41,6 +44,8 @@ public class Cube : MonoBehaviour
                 endPosition.x += 1;
                 endRotation.z -= 90;
                 break;
+            default:
+                throw new ArgumentOutOfRangeException(nameof(moveType), moveType, null);
         }
 
         _isMovementBlocked = true;
@@ -50,10 +55,11 @@ public class Cube : MonoBehaviour
                  {
                      transform.rotation = Quaternion.identity;
                      _isMovementBlocked = false;
+                     OnCubeMoved.Invoke(moveType);
                  });
     }
     
-    private enum MoveType
+    public enum MoveType
     {
         TopRight,
         TopLeft,

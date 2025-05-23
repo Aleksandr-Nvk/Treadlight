@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -7,35 +8,54 @@ using Random = UnityEngine.Random;
 public class TerrainGenerator : MonoBehaviour
 {
     [SerializeField]
-    private GameObject RegularGroundTile;
-    [SerializeField]
-    private GameObject BorderGroundTile;
-    [SerializeField]
-    private GameObject ObstacleGroundTile;
+    private TilePool TilePool;
     
     [SerializeField]
-    private Transform Cube;
-
+    private Cube Cube;
+    
+    public const int InitGridWidth = 24;
+    public const int InitGridLength = 70;
+    
+    private const float BorderVariationProbability = 0.1f;
     private readonly (TileType, float)[] _tileProbabilities = 
     {
         (TileType.Hole, 0.05f),
         (TileType.Obstacle, 0.05f),
         (TileType.Regular, 0.9f)
     };
+    
+    private readonly Queue<List<Tile>> _rows = new(InitGridLength);
 
-    private const float BorderVariationProbability = 0.1f;
-    
-    private const int InitGridWidth = 24;
-    private const int InitGridLength = 70;
-    
-    private readonly List<List<Tile>> _rows = new(InitGridLength);
+    public void Awake()
+    {
+        Cube.OnCubeMoved += moveType =>
+        {
+            if (moveType is Cube.MoveType.BottomLeft or Cube.MoveType.BottomRight)
+            {
+                //RemoveLastRow();
+            }
+        };
+    }
 
     public void Start()
     {
         for (var i = 0; i < InitGridLength; i++)
         {
             var row = SpawnRow(i / 2, i / 2 + i % 2);
-            _rows.Add(row);
+            _rows.Enqueue(row);
+        }
+
+        StartCoroutine(AdvanceTileGrid());
+    }
+
+    private IEnumerator AdvanceTileGrid()
+    {
+        for (var i = 0;; i++)
+        {
+            RemoveLastRow();
+            var row = SpawnRow((InitGridLength + i) / 2, (InitGridLength + i) / 2 + (InitGridLength + i) % 2);
+            _rows.Enqueue(row);
+            yield return new WaitForSeconds(0.25f);
         }
     }
 
@@ -53,35 +73,20 @@ public class TerrainGenerator : MonoBehaviour
                 _ => GetRouletteTileType(_tileProbabilities)
             };
 
-            var tile = SpawnTile(x + InitGridWidth - i, z + i + 1, tileType);
+            var tile = TilePool.GetOrInstantiateTile(tileType);
+            tile.GameObject.transform.position = transform.position + new Vector3(x + InitGridWidth - i, 0, z + i + 1);
             row.Add(tile);
         }
 
         return row;
     }
     
-    private Tile SpawnTile(int x, int z, TileType type)
+    private void RemoveLastRow()
     {
-        GameObject tilePrefab;
-        switch (type)
+        foreach (var tile in _rows.Dequeue())
         {
-            case TileType.Regular:
-                tilePrefab = RegularGroundTile;
-                break;
-            case TileType.Border:
-                tilePrefab = BorderGroundTile;
-                break;
-            case TileType.Obstacle:
-                tilePrefab = ObstacleGroundTile;
-                break;
-            case TileType.Hole:
-                return new Tile(null, type);
-            default:
-                throw new ArgumentOutOfRangeException(nameof(type), type, null);
+            TilePool.RemoveTile(tile);
         }
-        
-        var tileObject = Instantiate(tilePrefab, transform.position + new Vector3(x, 0, z), Quaternion.identity, transform);
-        return new Tile(tileObject, type);
     }
     
     // shamelessly stolen from https://gamedev.stackexchange.com/a/153851

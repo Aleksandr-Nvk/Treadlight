@@ -25,7 +25,7 @@ public class InputManager : MonoBehaviour
     private Vector2? _startTapPosition;
     private void Update()
     {
-        var isTapDown = _inputSystem.Player.Tap.IsPressed();;
+        var isTapDown = _inputSystem.Player.Tap.IsPressed();
         var currentTapPosition = _inputSystem.Player.Drag.ReadValue<Vector2>();
         if (isTapDown)
         {
