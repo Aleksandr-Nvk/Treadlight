@@ -35,12 +35,12 @@ public class TilePool : MonoBehaviour
         };
 
         GameObject tileObject;
-        try
+        if (_pool[type].Count != 0)
         {
             tileObject = _pool[type].Dequeue().GameObject;
             tileObject.SetActive(true);
         }
-        catch (InvalidOperationException)
+        else
         {
             tileObject = Instantiate(tilePrefab, Vector3.zero, Quaternion.identity);
         }

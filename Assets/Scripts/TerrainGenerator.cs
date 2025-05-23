@@ -15,6 +15,8 @@ public class TerrainGenerator : MonoBehaviour
     
     public const int InitGridWidth = 24;
     public const int InitGridLength = 70;
+
+    private const float TileGridAdvanceInterval = 0.35f;
     
     private const float BorderVariationProbability = 0.1f;
     private readonly (TileType, float)[] _tileProbabilities = 
@@ -41,7 +43,7 @@ public class TerrainGenerator : MonoBehaviour
     {
         for (var i = 0; i < InitGridLength; i++)
         {
-            var row = SpawnRow(i / 2, i / 2 + i % 2);
+            var row = SpawnRow(i);
             _rows.Enqueue(row);
         }
 
@@ -50,16 +52,16 @@ public class TerrainGenerator : MonoBehaviour
 
     private IEnumerator AdvanceTileGrid()
     {
-        for (var i = 0;; i++)
+        for (var i = InitGridLength; ; i++)
         {
             RemoveLastRow();
-            var row = SpawnRow((InitGridLength + i) / 2, (InitGridLength + i) / 2 + (InitGridLength + i) % 2);
+            var row = SpawnRow(i);
             _rows.Enqueue(row);
-            yield return new WaitForSeconds(0.25f);
+            yield return new WaitForSeconds(TileGridAdvanceInterval);
         }
     }
 
-    private List<Tile> SpawnRow(int x, int z)
+    private List<Tile> SpawnRow(int index)
     {
         var row = new List<Tile>(InitGridWidth);
         for (var i = 0; i < InitGridWidth; i++)
@@ -74,7 +76,9 @@ public class TerrainGenerator : MonoBehaviour
             };
 
             var tile = TilePool.GetOrInstantiateTile(tileType);
-            tile.GameObject.transform.position = transform.position + new Vector3(x + InitGridWidth - i, 0, z + i + 1);
+            var x = index / 2 + InitGridWidth - i;
+            var z = index / 2 + index % 2 + i + 1;
+            tile.GameObject.transform.position = transform.position + new Vector3(x, 0, z);
             row.Add(tile);
         }
 
