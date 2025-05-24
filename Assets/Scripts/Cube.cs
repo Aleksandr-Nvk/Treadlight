@@ -9,7 +9,10 @@ public class Cube : MonoBehaviour
     private InputManager InputManager;
     
     [SerializeField]
-    private TerrainGenerator TerrainGenerator;
+    private TileManager TileManager;
+    
+    [NonSerialized]
+    public bool IsMovementBlocked = true;
     
     private const float AnimationDuration = 0.25f;
     
@@ -21,10 +24,9 @@ public class Cube : MonoBehaviour
         InputManager.OnBottomLeftSwipe += () => Move(MoveType.BottomLeft);
     }
 
-    private bool _isMovementBlocked = false;
     private void Move(MoveType moveType)
     {
-        if (_isMovementBlocked) return;
+        if (IsMovementBlocked) return;
         
         var endPosition = transform.parent.position;
         var endRotation = transform.rotation.eulerAngles;
@@ -50,7 +52,7 @@ public class Cube : MonoBehaviour
                 throw new ArgumentOutOfRangeException(nameof(moveType), moveType, null);
         }
 
-        var targetTile = TerrainGenerator.ActiveRows
+        var targetTile = TileManager.ActiveRows
                                          .SelectMany(row => row)
                                          .First(tile => tile.GameObject.transform.position == endPosition + Vector3.down);
         switch (targetTile.Type)
@@ -69,13 +71,13 @@ public class Cube : MonoBehaviour
                 throw new ArgumentOutOfRangeException();
         }
 
-        _isMovementBlocked = true;
+        IsMovementBlocked = true;
         transform.parent.DOMove(endPosition, AnimationDuration);
         transform.DOLocalRotate(endRotation, AnimationDuration) // TODO: rotate around ribs, not center
                  .OnComplete(() =>
                  {
                      transform.rotation = Quaternion.identity;
-                     _isMovementBlocked = false;
+                     IsMovementBlocked = false;
                  });
     }
     

@@ -17,11 +17,6 @@ public class InputManager : MonoBehaviour
         _inputSystem = new CubeInputSystem();
     }
 
-    private void OnEnable()
-    {
-        _inputSystem.Player.Enable();
-    }
-
     private Vector2? _startTapPosition;
     private void Update()
     {
@@ -39,11 +34,9 @@ public class InputManager : MonoBehaviour
             }
         }
     }
-    
-    private void OnDisable()
-    {
-        _inputSystem.Player.Disable();
-    }
+
+    public void EnableInput() => _inputSystem.Player.Enable();
+    public void DisableInput() => _inputSystem.Player.Disable();
     
     private void InvokeSwipe(Vector2 startTapPosition, Vector2 endTapPosition)
     {

@@ -5,7 +5,7 @@ using System.Linq;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-public class TerrainGenerator : MonoBehaviour
+public class TileManager : MonoBehaviour
 {
     [SerializeField]
     private TilePool TilePool;
@@ -25,15 +25,15 @@ public class TerrainGenerator : MonoBehaviour
     };
     
     public readonly Queue<List<Tile>> ActiveRows = new(InitGridLength);
-
-    public void Start()
+    
+    public void StartGeneration()
     {
         for (var i = 0; i < InitGridLength; i++)
         {
             var row = SpawnRow(i);
             ActiveRows.Enqueue(row);
         }
-
+        
         StartCoroutine(AdvanceTileGrid());
     }
 
