@@ -10,17 +10,18 @@ public class TerrainGenerator : MonoBehaviour
     [SerializeField]
     private TilePool TilePool;
 
-    private const int InitGridWidth = 24;
+    private const int InitGridWidth = 24; // NOTE: affects MinIrregularTilesPerRow
     private const int InitGridLength = 70;
+    private const float MinIrregularTilesPerRow = 5;  // NOTE: affects InitGridWidth
 
-    private const float TileGridAdvanceInterval = 1000000f; // TODO: reset to 0.35f
+    private const float TileGridAdvanceInterval = 0.35f;
     
     private const float BorderVariationProbability = 0.1f;
     private readonly (TileType, float)[] _tileProbabilities = 
     {
-        (TileType.Hole, 0.05f),
-        (TileType.Obstacle, 0.05f),
-        (TileType.Regular, 0.9f)
+        (TileType.Hole, 0.1f),
+        (TileType.Obstacle, 0.2f),
+        (TileType.Regular, 0.7f)
     };
     
     public readonly Queue<List<Tile>> ActiveRows = new(InitGridLength);
@@ -50,16 +51,35 @@ public class TerrainGenerator : MonoBehaviour
     private List<Tile> SpawnRow(int index)
     {
         var row = new List<Tile>(InitGridWidth);
+        var irregularTilesLeft = InitGridWidth - MinIrregularTilesPerRow;
         for (var i = 0; i < InitGridWidth; i++)
         {
-            var tileType = i switch
+            TileType tileType;
+            if (i is 0 or InitGridWidth - 1)
             {
-                0 or InitGridWidth - 1 => TileType.Border,
-                1 or InitGridWidth - 2 => Random.value <= BorderVariationProbability
+                tileType = TileType.Border;
+            }
+            else if (i is 1 or InitGridWidth - 2)
+            {
+                tileType = Random.value <= BorderVariationProbability
                     ? TileType.Border
-                    : GetRouletteTileType(_tileProbabilities),
-                _ => GetRouletteTileType(_tileProbabilities)
-            };
+                    : GetRouletteTileType(_tileProbabilities);
+            }
+            else
+            {
+                if (irregularTilesLeft == 0)
+                {
+                    tileType = TileType.Regular;
+                }
+                else
+                {
+                    tileType = GetRouletteTileType(_tileProbabilities);
+                    if (tileType != TileType.Regular)
+                    {
+                        irregularTilesLeft--;
+                    }
+                }
+            }
 
             var tile = TilePool.GetOrInstantiateTile(tileType);
             var x = index / 2 + InitGridWidth - i;
