@@ -1,5 +1,7 @@
-﻿1. Add some kind of trail to cube that gets more intense/saturated the closer it gets to the edge
+﻿1. Add trail to cube that gets more intense/saturated the closer it gets to the edge
 2. Add traces of last playthroughs that fade over time
 3. Add power-up or ability "ghost" and "levitate" (or combination) that allows to go through walls and over holes respectively
-4. Some kind of narration?
+4. Add narration?
 5. Add variation to regular tiles and others
+6. Add glowing or particles from holes
+7. Try varied row width
