@@ -7,14 +7,17 @@ using Random = UnityEngine.Random;
 
 public class TileManager : MonoBehaviour
 {
-    [SerializeField]
-    private TilePool TilePool;
+    [SerializeField] private TilePool TilePool;
+
+    public Action<int> OnGridAdvanced;
+    
+    public readonly Queue<List<Tile>> ActiveRows = new(InitGridLength);
+    
+    private const float GridAdvanceTimeInterval = 0.35f;
 
     private const int InitGridWidth = 24; // NOTE: affects MinIrregularTilesPerRow
     private const int InitGridLength = 70;
     private const float MinIrregularTilesPerRow = 5;  // NOTE: affects InitGridWidth
-
-    private const float TileGridAdvanceInterval = 0.35f;
     
     private const float BorderVariationProbability = 0.1f;
     private readonly (TileType, float)[] _tileProbabilities = 
@@ -23,8 +26,6 @@ public class TileManager : MonoBehaviour
         (TileType.Obstacle, 0.2f),
         (TileType.Regular, 0.7f)
     };
-    
-    public readonly Queue<List<Tile>> ActiveRows = new(InitGridLength);
     
     public void StartGeneration()
     {
@@ -37,14 +38,16 @@ public class TileManager : MonoBehaviour
         StartCoroutine(AdvanceTileGrid());
     }
 
+    public int CurrentRowIndex = InitGridLength;
     private IEnumerator AdvanceTileGrid()
     {
-        for (var i = InitGridLength; ; i++)
+        for (var i = CurrentRowIndex; ; i++)
         {
             RemoveLastRow();
             var row = SpawnRow(i);
             ActiveRows.Enqueue(row);
-            yield return new WaitForSeconds(TileGridAdvanceInterval);
+            OnGridAdvanced?.Invoke(i);
+            yield return new WaitForSeconds(GridAdvanceTimeInterval);
         }
     }
 

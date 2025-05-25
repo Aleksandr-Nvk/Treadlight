@@ -1,10 +1,9 @@
 using DG.Tweening;
 using UnityEngine;
 
-public class Camera : MonoBehaviour
+public class CameraFollower : MonoBehaviour
 {
-    [SerializeField]
-    private Transform Target;
+    [SerializeField] private Transform Target;
 
     private const float FollowDuration = 0.5f;
     

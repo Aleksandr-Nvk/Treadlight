@@ -5,14 +5,12 @@ using UnityEngine;
 
 public class Cube : MonoBehaviour
 {
-    [SerializeField]
-    private InputManager InputManager;
+    [SerializeField] private InputManager InputManager;
+    [SerializeField] private TileManager TileManager;
     
-    [SerializeField]
-    private TileManager TileManager;
-    
-    [NonSerialized]
-    public bool IsMovementBlocked = true;
+    [NonSerialized] public bool IsMovementBlocked = true;
+
+    [NonSerialized] public Action<TileType> OnMoved;
     
     private const float AnimationDuration = 0.25f;
     
@@ -52,33 +50,41 @@ public class Cube : MonoBehaviour
                 throw new ArgumentOutOfRangeException(nameof(moveType), moveType, null);
         }
 
-        var targetTile = TileManager.ActiveRows
-                                         .SelectMany(row => row)
-                                         .First(tile => tile.GameObject.transform.position == endPosition + Vector3.down);
+        var tileRows = TileManager.ActiveRows.SelectMany(row => row);
+        Tile targetTile;
+        try
+        {
+            targetTile = tileRows.First(tile => tile.GameObject.transform.position == endPosition + Vector3.down);
+        }
+        catch (InvalidOperationException) // tried to jump into the void
+        {
+            OnMoved(TileType.Hole);
+            return;
+        }
+        
         switch (targetTile.Type)
         {
             case TileType.Regular:
-                Debug.Log("Safe");
-                break;
             case TileType.Hole:
-                Debug.Log("Dead");
-                return;
+                break;
             case TileType.Border:
             case TileType.Obstacle:
-                Debug.Log("Unavailable");
                 return;
             default:
                 throw new ArgumentOutOfRangeException();
         }
-
+        
         IsMovementBlocked = true;
-        transform.parent.DOMove(endPosition, AnimationDuration);
-        transform.DOLocalRotate(endRotation, AnimationDuration) // TODO: rotate around ribs, not center
-                 .OnComplete(() =>
-                 {
-                     transform.rotation = Quaternion.identity;
-                     IsMovementBlocked = false;
-                 });
+        
+        var seq = DOTween.Sequence();
+        seq.Append(transform.parent.DOMove(endPosition, AnimationDuration));
+        seq.Join(transform.DOLocalRotate(endRotation, AnimationDuration));
+        seq.OnComplete(() => 
+        {
+            transform.rotation = Quaternion.identity;
+            IsMovementBlocked = false;
+            OnMoved?.Invoke(targetTile.Type);
+        });
     }
     
     private enum MoveType

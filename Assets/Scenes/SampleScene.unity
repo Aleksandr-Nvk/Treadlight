@@ -426,6 +426,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Cube: {fileID: 1764732568}
+  TileManager: {fileID: 1889215842}
 --- !u!4 &708615284
 Transform:
   m_ObjectHideFlags: 0
@@ -1002,6 +1003,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TilePool: {fileID: 1376512258}
+  CurrentRowIndex: 70
 --- !u!1 &1951138612
 GameObject:
   m_ObjectHideFlags: 0

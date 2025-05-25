@@ -3,15 +3,15 @@ using UnityEngine;
 
 public class InputManager : MonoBehaviour
 {
-    private const float SwipeThreshold = 50;
-
-    private CubeInputSystem _inputSystem;
-
     public Action OnTopRightSwipe;
     public Action OnTopLeftSwipe;
     public Action OnBottomRightSwipe;
     public Action OnBottomLeftSwipe;
 
+    private CubeInputSystem _inputSystem;
+
+    private const float SwipeThreshold = 50;
+    
     public void Awake()
     {
         _inputSystem = new CubeInputSystem();
@@ -44,16 +44,16 @@ public class InputManager : MonoBehaviour
         switch (diff.x)
         {
             case >= 0 when diff.y >= 0:
-                OnTopRightSwipe.Invoke();
+                OnTopRightSwipe?.Invoke();
                 break;
             case >= 0 when diff.y < 0:
-                OnBottomRightSwipe.Invoke();
+                OnBottomRightSwipe?.Invoke();
                 break;
             case < 0 when diff.y >= 0:
-                OnTopLeftSwipe.Invoke();
+                OnTopLeftSwipe?.Invoke();
                 break;
             case < 0 when diff.y < 0:
-                OnBottomLeftSwipe.Invoke();
+                OnBottomLeftSwipe?.Invoke();
                 break;
         }
     }

@@ -4,14 +4,10 @@ using UnityEngine;
 
 public class TilePool : MonoBehaviour
 {
-    [SerializeField]
-    private  GameObject RegularGroundTile;
-    [SerializeField]
-    private GameObject BorderGroundTile;
-    [SerializeField]
-    private GameObject ObstacleGroundTile;
-    [SerializeField]
-    private GameObject HoleGroundTile;
+    [SerializeField] private  GameObject RegularGroundTile;
+    [SerializeField] private GameObject BorderGroundTile;
+    [SerializeField] private GameObject ObstacleGroundTile;
+    [SerializeField] private GameObject HoleGroundTile;
 
     private readonly Dictionary<TileType, Queue<Tile>> _pool = new();
 
