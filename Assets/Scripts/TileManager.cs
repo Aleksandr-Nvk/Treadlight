@@ -8,16 +8,19 @@ using Random = UnityEngine.Random;
 public class TileManager : MonoBehaviour
 {
     [SerializeField] private TilePool TilePool;
+    [SerializeField] private Cube Cube;
 
     public Action<int> OnGridAdvanced;
     
     public readonly Queue<List<Tile>> ActiveRows = new(InitGridLength);
+
+    private readonly Vector3 _gridSpawnOffset = new(-30, -1, -30);
     
     private const float GridAdvanceTimeInterval = 0.35f;
 
-    private const int InitGridWidth = 24; // NOTE: affects MinIrregularTilesPerRow
+    private const int InitGridWidth = 25;
     private const int InitGridLength = 70;
-    private const float MinIrregularTilesPerRow = 5;  // NOTE: affects InitGridWidth
+    private const int MaxIrregularTilesPerRow = InitGridWidth / 2 + 1;
     
     private const float BorderVariationProbability = 0.1f;
     private readonly (TileType, float)[] _tileProbabilities = 
@@ -31,30 +34,41 @@ public class TileManager : MonoBehaviour
     {
         for (var i = 0; i < InitGridLength; i++)
         {
-            var row = SpawnRow(i);
-            ActiveRows.Enqueue(row);
+            var offsetCubePosition = Cube.transform.parent.position - _gridSpawnOffset;
+            var positionSum = Mathf.Abs(offsetCubePosition.x + offsetCubePosition.z);
+            
+            // protection against unfortunate spawn
+            // ridiculously complicated formula calculated on a sheet of paper. Do NOT touch or face the consequences
+            if (Mathf.Approximately(positionSum, InitGridWidth + 2f * Mathf.Ceil((i - 1) / 2f) + 1f))
+            {
+                ActiveRows.Enqueue(SpawnRandomRow(i++, true));
+                ActiveRows.Enqueue(SpawnRandomRow(i, true));
+            }
+            else
+            {
+                ActiveRows.Enqueue(SpawnRandomRow(i));
+            }
         }
         
         StartCoroutine(AdvanceTileGrid());
     }
 
-    public int CurrentRowIndex = InitGridLength;
     private IEnumerator AdvanceTileGrid()
     {
-        for (var i = CurrentRowIndex; ; i++)
+        for (var i = InitGridLength; ; i++)
         {
             RemoveLastRow();
-            var row = SpawnRow(i);
+            var row = SpawnRandomRow(i);
             ActiveRows.Enqueue(row);
             OnGridAdvanced?.Invoke(i);
             yield return new WaitForSeconds(GridAdvanceTimeInterval);
         }
     }
 
-    private List<Tile> SpawnRow(int index)
+    private List<Tile> SpawnRandomRow(int index, bool isFullRegularRow = false)
     {
         var row = new List<Tile>(InitGridWidth);
-        var irregularTilesLeft = InitGridWidth - MinIrregularTilesPerRow;
+        var irregularTilesLeft = InitGridWidth - MaxIrregularTilesPerRow;
         for (var i = 0; i < InitGridWidth; i++)
         {
             TileType tileType;
@@ -70,24 +84,31 @@ public class TileManager : MonoBehaviour
             }
             else
             {
-                if (irregularTilesLeft == 0)
+                if (!isFullRegularRow)
                 {
-                    tileType = TileType.Regular;
+                    if (irregularTilesLeft == 0)
+                    {
+                        tileType = TileType.Regular;
+                    }
+                    else
+                    {
+                        tileType = GetRouletteTileType(_tileProbabilities);
+                        if (tileType != TileType.Regular)
+                        {
+                            irregularTilesLeft--;
+                        }
+                    }
                 }
                 else
                 {
-                    tileType = GetRouletteTileType(_tileProbabilities);
-                    if (tileType != TileType.Regular)
-                    {
-                        irregularTilesLeft--;
-                    }
+                    tileType = TileType.Regular;
                 }
             }
 
             var tile = TilePool.GetOrInstantiateTile(tileType);
-            var x = index / 2 + InitGridWidth - i;
-            var z = index / 2 + index % 2 + i + 1;
-            tile.GameObject.transform.position = transform.position + new Vector3(x, 0, z);
+            var tilePosX = index / 2 + InitGridWidth - i;
+            var tilePosZ = index / 2 + index % 2 + i + 1;
+            tile.GameObject.transform.position = new Vector3(tilePosX, 0, tilePosZ) + _gridSpawnOffset;
             row.Add(tile);
         }
 

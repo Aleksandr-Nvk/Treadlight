@@ -11,6 +11,8 @@
 10. Add teleport tile?
 11. Add cracking tile that break after being stepped on
 12. Add on/off tiles
+13. Make better death animation
+14. Make the code more callback-based
 
 CRITICAL
 

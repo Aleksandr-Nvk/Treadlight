@@ -18,9 +18,6 @@ public class UIManager : MonoBehaviour
         seq.Append(buttonTransform.DOScale(1.15f, AnimationsDuration / 2).SetEase(Ease.OutBack));
         seq.Append(buttonTransform.DOScale(0f, AnimationsDuration).SetEase(Ease.InBack));
         seq.Join(button.image.DOFade(0f, AnimationsDuration));
-        seq.OnComplete(() =>
-        {
-            button.gameObject.SetActive(false);
-        });
+        seq.OnComplete(() => button.gameObject.SetActive(false));
     }
 }
