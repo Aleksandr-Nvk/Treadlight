@@ -29,15 +29,7 @@ public class TileManager : MonoBehaviour
         (TileType.Obstacle, 0.2f),
         (TileType.Regular, 0.7f)
     };
-
-    private int _currentRowIndex = 0;
-    private Coroutine _generator;
     
-    public void StartGeneration()
-    {
-        _generator = StartCoroutine(AdvanceTileGrid());
-    }
-
     public void GenerateStartGrid()
     {
         for (var i = 0; i < InitGridLength; i++)
@@ -57,22 +49,29 @@ public class TileManager : MonoBehaviour
                 ActiveRows.Enqueue(SpawnRow(i));
             }
         }
-    }
-    
-    public void StopGeneration()
-    {
-        if(_generator is not null) StopCoroutine(_generator);
+
+        _currentIndex = InitGridLength;
     }
 
-    private IEnumerator AdvanceTileGrid()
+    public void StartGeneration() => _generationAllowed = true;
+    public void StopGeneration() => _generationAllowed = false;
+
+    private float _timePassed = 0f;
+    private bool _generationAllowed = false;
+    private int _currentIndex = 0;
+    private void Update()
     {
-        for (var i = ActiveRows.Count; ; i++)
-        {
-            RemoveLastRow();
-            ActiveRows.Enqueue(SpawnRow(i));
-            OnGridAdvanced?.Invoke(i);
-            yield return new WaitForSeconds(GridAdvanceTimeInterval);
-        }
+        if (!_generationAllowed) return;
+        
+        _timePassed += Time.deltaTime;
+        if (!(_timePassed >= GridAdvanceTimeInterval)) return;
+        
+        RemoveLastRow();
+        ActiveRows.Enqueue(SpawnRow(_currentIndex));
+        OnGridAdvanced?.Invoke(_currentIndex);
+
+        _currentIndex++;
+        _timePassed = 0f;
     }
 
     private List<Tile> SpawnRow(int index, bool isFullRegularRow = false)
@@ -122,7 +121,6 @@ public class TileManager : MonoBehaviour
             row.Add(tile);
         }
 
-        _currentRowIndex++;
         return row;
     }
     
@@ -133,14 +131,15 @@ public class TileManager : MonoBehaviour
             TilePool.RemoveTile(tile);
         }
     }
-
-    public void RemoveAll()
+    
+    public void ClearGrid()
     {
         while (ActiveRows.Count != 0)
         {
             RemoveLastRow();
-            _currentRowIndex--;
         }
+
+        _currentIndex = 0;
     }
     
     // shamelessly stolen from https://gamedev.stackexchange.com/a/153851

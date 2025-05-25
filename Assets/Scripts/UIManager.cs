@@ -1,3 +1,4 @@
+using System;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
@@ -23,7 +24,7 @@ public class UIManager : MonoBehaviour
 
     public void ShowPauseMenu() => ShowMenu(PauseMenu);
     public void HidePauseMenu() => HideMenu(PauseMenu);
-    
+
     // TODO: not sure this should be here?
     private void Start()
     {
@@ -52,7 +53,6 @@ public class UIManager : MonoBehaviour
         seq.Join(button.image.DOFade(1f, AnimationsDuration));
         seq.Append(buttonTransform.DOScale(1f, AnimationsDuration).SetEase(Ease.OutBack));
         seq.OnComplete(() => button.interactable = true);
-        
     }
     
     private void HideMenu(CanvasGroup menu)

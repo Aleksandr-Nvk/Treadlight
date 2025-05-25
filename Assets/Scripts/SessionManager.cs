@@ -14,45 +14,44 @@ public class SessionManager : MonoBehaviour
 
     public void StartSession()
     {
-        TileManager.RemoveAll();
-        CubeManager.DestroyCube(true);
         UIManager.HidePlayButton();
         UIManager.ShowPauseButton();
-        TileManager.GenerateStartGrid();
-        TileManager.StartGeneration();
+        CubeManager.DestroyCube(true);
         CubeManager.SpawnCube();
         InputManager.EnableInput();
+        TileManager.GenerateStartGrid();
+        TileManager.StartGeneration();
     }
 
     public void PauseSession()
     {
         UIManager.HidePauseButton();
         UIManager.ShowPauseMenu();
-        TileManager.StopGeneration();
         InputManager.DisableInput();
+        TileManager.StopGeneration();
     }
 
     public void ResumeSession()
     {
         UIManager.ShowPauseButton();
         UIManager.HidePauseMenu();
-        TileManager.StartGeneration();
         InputManager.EnableInput();
+        TileManager.StartGeneration();
     }
 
     public void EndSession()
     {
         UIManager.ShowGameOverMenu();
         UIManager.HidePauseButton();
-        TileManager.StopGeneration();
         InputManager.DisableInput();
+        TileManager.StopGeneration();
     }
 
     public void RestartSession()
     {
         UIManager.HideGameOverMenu();
-        TileManager.StopGeneration();
-        InputManager.DisableInput();
+        InputManager.EnableInput();
+        TileManager.ClearGrid();
 
         StartSession();
     }
