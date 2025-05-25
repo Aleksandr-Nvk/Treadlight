@@ -6,7 +6,7 @@ public class SessionManager : MonoBehaviour
     [SerializeField] private CubeManager CubeManager;
     [SerializeField] private InputManager InputManager;
     [SerializeField] private UIManager UIManager;
-    
+
     private void Awake()
     {
         CubeManager.OnCubeDestroyed += EndSession;
@@ -14,11 +14,13 @@ public class SessionManager : MonoBehaviour
 
     public void StartSession()
     {
+        TileManager.RemoveAll();
+        CubeManager.DestroyCube(true);
         UIManager.HidePlayButton();
         UIManager.ShowPauseButton();
-        CubeManager.SpawnCube();
         TileManager.GenerateStartGrid();
         TileManager.StartGeneration();
+        CubeManager.SpawnCube();
         InputManager.EnableInput();
     }
 
@@ -40,9 +42,23 @@ public class SessionManager : MonoBehaviour
 
     public void EndSession()
     {
-        // UIManager.ShowPlayButton(); should be ShowRestartButton
+        UIManager.ShowGameOverMenu();
         UIManager.HidePauseButton();
         TileManager.StopGeneration();
         InputManager.DisableInput();
+    }
+
+    public void RestartSession()
+    {
+        UIManager.HideGameOverMenu();
+        TileManager.StopGeneration();
+        InputManager.DisableInput();
+
+        StartSession();
+    }
+
+    public void CancelSession()
+    {
+        // when exited from pause menu
     }
 }

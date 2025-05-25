@@ -49,15 +49,13 @@ public class TileManager : MonoBehaviour
             // ridiculously complicated formula calculated on a sheet of paper. Do NOT touch or face the consequences
             if (Mathf.Approximately(positionSum, InitGridWidth + 2f * Mathf.Ceil((i - 1) / 2f) + 1f))
             {
-                ActiveRows.Enqueue(SpawnRandomRow(i++, true));
-                ActiveRows.Enqueue(SpawnRandomRow(i, true));
+                ActiveRows.Enqueue(SpawnRow(i++, true));
+                ActiveRows.Enqueue(SpawnRow(i, true));
             }
             else
             {
-                ActiveRows.Enqueue(SpawnRandomRow(i));
+                ActiveRows.Enqueue(SpawnRow(i));
             }
-
-            _currentRowIndex = i;
         }
     }
     
@@ -68,17 +66,16 @@ public class TileManager : MonoBehaviour
 
     private IEnumerator AdvanceTileGrid()
     {
-        for (var i = _currentRowIndex; ; i++)
+        for (var i = ActiveRows.Count; ; i++)
         {
             RemoveLastRow();
-            var row = SpawnRandomRow(i);
-            ActiveRows.Enqueue(row);
+            ActiveRows.Enqueue(SpawnRow(i));
             OnGridAdvanced?.Invoke(i);
             yield return new WaitForSeconds(GridAdvanceTimeInterval);
         }
     }
 
-    private List<Tile> SpawnRandomRow(int index, bool isFullRegularRow = false)
+    private List<Tile> SpawnRow(int index, bool isFullRegularRow = false)
     {
         var row = new List<Tile>(InitGridWidth);
         var irregularTilesLeft = InitGridWidth - MaxIrregularTilesPerRow;
@@ -125,6 +122,7 @@ public class TileManager : MonoBehaviour
             row.Add(tile);
         }
 
+        _currentRowIndex++;
         return row;
     }
     
@@ -136,7 +134,7 @@ public class TileManager : MonoBehaviour
         }
     }
 
-    private void RemoveAll()
+    public void RemoveAll()
     {
         while (ActiveRows.Count != 0)
         {

@@ -11,6 +11,7 @@ public class CubeManager : MonoBehaviour
     
     [NonSerialized] public Action OnCubeDestroyed;
     
+    private Vector3 _initCubeParentPosition;
     private Vector3 _initCubePosition;
 
     private const float CubeSpawnHeight = 50f;
@@ -23,6 +24,7 @@ public class CubeManager : MonoBehaviour
 
     private void Start()
     {
+        _initCubeParentPosition = Cube.transform.parent.position;
         _initCubePosition = Cube.transform.position;
     }
 
@@ -53,28 +55,36 @@ public class CubeManager : MonoBehaviour
     public void SpawnCube()
     {
         Cube.gameObject.SetActive(true);
+        Cube.transform.parent.position = _initCubeParentPosition;
         Cube.transform.position = _initCubePosition + Vector3.up * CubeSpawnHeight;
         Cube.transform.rotation = Quaternion.identity;
         Cube.transform.localScale = new Vector3(1.2f, 1f, 1.2f);
         
         var animationSequence = DOTween.Sequence();
         animationSequence.AppendInterval(0.5f);
-        animationSequence.Append(Cube.transform.DOMove(_initCubePosition, 0.25f));
+        animationSequence.Append(Cube.transform.DOLocalMove(_initCubePosition, 0.25f));
         animationSequence.Append(Cube.transform.DOScale(Vector3.one, 0.1f));
         animationSequence.OnComplete(() => Cube.IsMovementBlocked = false);
     }
     
     // cube's Transform is not reset to defaults
-    private void DestroyCube()
+    public void DestroyCube(bool silently = false)
     {
         Cube.IsMovementBlocked = true;
-        var seq = DOTween.Sequence();
-        seq.Append(Cube.transform.DOScale(Vector3.zero, 0.25f));
-        seq.Join(Cube.transform.DOMove(Cube.transform.position + Vector3.down, 0.25f));
-        seq.OnComplete(() =>
+        if (silently)
         {
-            Cube.gameObject.SetActive(false);
-            OnCubeDestroyed?.Invoke();
-        }); 
+           Cube.transform.localScale = Vector3.zero;
+           Cube.gameObject.SetActive(false);
+        }
+        else
+        {
+            var seq = DOTween.Sequence();
+            seq.Append(Cube.transform.DOScale(Vector3.zero, 0.25f));
+            seq.OnComplete(() =>
+            {
+                Cube.gameObject.SetActive(false);
+                OnCubeDestroyed?.Invoke();   
+            });
+        }
     }
 }

@@ -6,7 +6,8 @@ public class UIManager : MonoBehaviour
 {
     [SerializeField] private Button PlayButton;
     [SerializeField] private Button PauseButton;
-
+    
+    [SerializeField] private CanvasGroup GameOverMenu;
     [SerializeField] private CanvasGroup PauseMenu;
     
     private const float AnimationsDuration = 0.25f;
@@ -17,8 +18,10 @@ public class UIManager : MonoBehaviour
     public void HidePauseButton() => HideButton(PauseButton);
     public void ShowPauseButton() => ShowButton(PauseButton);
 
-    public void ShowPauseMenu() => ShowMenu(PauseMenu);
+    public void ShowGameOverMenu() => ShowMenu(GameOverMenu);
+    public void HideGameOverMenu() => HideMenu(GameOverMenu);
 
+    public void ShowPauseMenu() => ShowMenu(PauseMenu);
     public void HidePauseMenu() => HideMenu(PauseMenu);
     
     // TODO: not sure this should be here?
@@ -58,7 +61,6 @@ public class UIManager : MonoBehaviour
         
         var menuTransform = menu.GetComponent<RectTransform>();
         var seq = DOTween.Sequence();
-        var startPosY = menuTransform.anchoredPosition.y;
         seq.Append(menuTransform.DOAnchorPosY(Screen.height / 50f, AnimationsDuration / 2f).SetEase(Ease.OutBack));
         seq.Append(menuTransform.DOAnchorPosY(-Screen.height / 2f, AnimationsDuration).SetEase(Ease.OutBack));
         seq.Join(menu.DOFade(0f, AnimationsDuration).SetEase(Ease.InExpo));
@@ -71,12 +73,9 @@ public class UIManager : MonoBehaviour
         
         var menuTransform = menu.GetComponent<RectTransform>();
         var seq = DOTween.Sequence();
-        var startPosY = menuTransform.anchoredPosition.y;
         seq.Append(menuTransform.DOAnchorPosY(Screen.height / 50f, AnimationsDuration / 2f).SetEase(Ease.OutBack));
         seq.Join(menu.DOFade(1f, AnimationsDuration).SetEase(Ease.OutExpo));
         seq.Append(menuTransform.DOAnchorPosY(0f, AnimationsDuration).SetEase(Ease.OutBack));
         seq.OnComplete(() => menu.interactable = true);
     }
-
-    
 }
