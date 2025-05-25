@@ -53,15 +53,16 @@ public class TileManager : MonoBehaviour
         _currentIndex = InitGridLength;
     }
 
-    public void StartGeneration() => _generationAllowed = true;
-    public void StopGeneration() => _generationAllowed = false;
+    private bool _isGenerationAllowed = false;
+
+    public void StartGeneration() => _isGenerationAllowed = true;
+    public void StopGeneration() => _isGenerationAllowed = false;
 
     private float _timePassed = 0f;
-    private bool _generationAllowed = false;
     private int _currentIndex = 0;
     private void Update()
     {
-        if (!_generationAllowed) return;
+        if (!_isGenerationAllowed) return;
         
         _timePassed += Time.deltaTime;
         if (!(_timePassed >= GridAdvanceTimeInterval)) return;

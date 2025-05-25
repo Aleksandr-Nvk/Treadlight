@@ -39,14 +39,6 @@ public class SessionManager : MonoBehaviour
         TileManager.StartGeneration();
     }
 
-    public void EndSession()
-    {
-        UIManager.ShowGameOverMenu();
-        UIManager.HidePauseButton();
-        InputManager.DisableInput();
-        TileManager.StopGeneration();
-    }
-
     public void RestartSession()
     {
         UIManager.HideGameOverMenu();
@@ -58,6 +50,21 @@ public class SessionManager : MonoBehaviour
 
     public void CancelSession()
     {
-        // when exited from pause menu
+        UIManager.HidePauseMenu();
+        UIManager.HideGameOverMenu();
+        UIManager.ShowPlayButton();
+        UIManager.ShowSettingsButton();
+        InputManager.DisableInput();
+        TileManager.StopGeneration();
+        TileManager.ClearGrid();
+        CubeManager.DestroyCube(true);
+    }
+    
+    private void EndSession()
+    {
+        UIManager.ShowGameOverMenu();
+        UIManager.HidePauseButton();
+        InputManager.DisableInput();
+        TileManager.StopGeneration();
     }
 }

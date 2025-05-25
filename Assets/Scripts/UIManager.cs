@@ -7,6 +7,7 @@ public class UIManager : MonoBehaviour
 {
     [SerializeField] private Button PlayButton;
     [SerializeField] private Button PauseButton;
+    [SerializeField] private Button SettingsButton;
     
     [SerializeField] private CanvasGroup GameOverMenu;
     [SerializeField] private CanvasGroup PauseMenu;
@@ -19,6 +20,9 @@ public class UIManager : MonoBehaviour
     public void HidePauseButton() => HideButton(PauseButton);
     public void ShowPauseButton() => ShowButton(PauseButton);
 
+	public void HideSettingsButton() => HideButton(SettingsButton);
+    public void ShowSettingsButton() => ShowButton(SettingsButton);
+
     public void ShowGameOverMenu() => ShowMenu(GameOverMenu);
     public void HideGameOverMenu() => HideMenu(GameOverMenu);
 
@@ -29,6 +33,7 @@ public class UIManager : MonoBehaviour
     private void Start()
     {
         ShowPlayButton();
+		ShowSettingsButton();
     }
 
     private void HideButton(Button button)
