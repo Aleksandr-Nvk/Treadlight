@@ -17,7 +17,7 @@
 CRITICAL
 
 1. Add variation to regular tiles and others
-2. Make sure that cube always spawns on a full-regular tile row.
 3. Make camera zoom in/out just a little when session is started
 4. Add sounds and vibrations
 5. Add camera shake and zoom in/out on death
+6. Specify SetEase everywhere in code

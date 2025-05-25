@@ -29,8 +29,16 @@ public class TileManager : MonoBehaviour
         (TileType.Obstacle, 0.2f),
         (TileType.Regular, 0.7f)
     };
+
+    private int _currentRowIndex = 0;
+    private Coroutine _generator;
     
     public void StartGeneration()
+    {
+        _generator = StartCoroutine(AdvanceTileGrid());
+    }
+
+    public void GenerateStartGrid()
     {
         for (var i = 0; i < InitGridLength; i++)
         {
@@ -48,14 +56,19 @@ public class TileManager : MonoBehaviour
             {
                 ActiveRows.Enqueue(SpawnRandomRow(i));
             }
+
+            _currentRowIndex = i;
         }
-        
-        StartCoroutine(AdvanceTileGrid());
+    }
+    
+    public void StopGeneration()
+    {
+        if(_generator is not null) StopCoroutine(_generator);
     }
 
     private IEnumerator AdvanceTileGrid()
     {
-        for (var i = InitGridLength; ; i++)
+        for (var i = _currentRowIndex; ; i++)
         {
             RemoveLastRow();
             var row = SpawnRandomRow(i);
@@ -120,6 +133,15 @@ public class TileManager : MonoBehaviour
         foreach (var tile in ActiveRows.Dequeue())
         {
             TilePool.RemoveTile(tile);
+        }
+    }
+
+    private void RemoveAll()
+    {
+        while (ActiveRows.Count != 0)
+        {
+            RemoveLastRow();
+            _currentRowIndex--;
         }
     }
     
