@@ -45,9 +45,9 @@ public class CameraFollower : MonoBehaviour
         ZoomIn();
     }
 
-    private void ZoomIn() => _camera.DOOrthoSize(10, AnimationDuration);
+    public void ZoomIn() => _camera.DOOrthoSize(10, AnimationDuration);
 
-    private void ZoomOut() => _camera.DOOrthoSize(12, AnimationDuration);
+    public void ZoomOut() => _camera.DOOrthoSize(12, AnimationDuration);
 
     private void Update()
     {

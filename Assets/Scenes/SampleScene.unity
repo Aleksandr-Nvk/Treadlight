@@ -655,7 +655,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 2043629567}
         m_TargetAssemblyTypeName: SessionManager, Assembly-CSharp
-        m_MethodName: 
+        m_MethodName: OpenGitHub
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

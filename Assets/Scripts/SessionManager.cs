@@ -55,6 +55,7 @@ public class SessionManager : MonoBehaviour
         
         InputManager.DisableInput();
         TileManager.StopGeneration();
+        CameraFollower.ZoomOut();
     }
 
     public void ResumeSession()
@@ -64,6 +65,7 @@ public class SessionManager : MonoBehaviour
         
         InputManager.EnableInput();
         TileManager.StartGeneration();
+        CameraFollower.ZoomIn();
     }
 
     public void RestartSession()
@@ -91,7 +93,7 @@ public class SessionManager : MonoBehaviour
         StartPreviewSession();
     }
     
-    private void EndSession()
+    public void EndSession()
     {
         UIManager.ShowGameOverMenu();
         UIManager.HidePauseButton();
@@ -99,4 +101,7 @@ public class SessionManager : MonoBehaviour
         InputManager.DisableInput();
         TileManager.StopGeneration();
     }
+    
+    // for demonstration
+    public void OpenGitHub() => Application.OpenURL("https://github.com/Aleksandr-Nvk");
 }
