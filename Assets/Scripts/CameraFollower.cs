@@ -1,4 +1,5 @@
 using DG.Tweening;
+using Tiles;
 using UnityEngine;
 
 public class CameraFollower : MonoBehaviour
@@ -11,6 +12,8 @@ public class CameraFollower : MonoBehaviour
     
     private void Start()
     {
+        var tilePaletteManager = TilePaletteManager.GetInstance();
+        GetComponent<Camera>().backgroundColor = tilePaletteManager.GetPalette()[3];
         _positionDelta = transform.position - Target.position;
     }
     

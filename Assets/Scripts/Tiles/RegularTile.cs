@@ -7,7 +7,8 @@ namespace Tiles
         private const float AnomalyProbability = 0.025f;
         private void Start()
         {
-            TilePaletteManager.ChangeMaterialColor(gameObject, TilePaletteManager.GetRandomPalette()[2]);
+            var tilePaletteManager = TilePaletteManager.GetInstance();
+            TilePaletteManager.ChangeMaterialColor(gameObject, tilePaletteManager.GetPalette()[2]);
             
             for (var i = 0; i < transform.childCount; i++)
             {
