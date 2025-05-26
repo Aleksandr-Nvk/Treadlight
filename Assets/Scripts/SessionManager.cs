@@ -24,7 +24,8 @@ public class SessionManager : MonoBehaviour
     public void StartPreviewSession()
     {
         UIManager.ShowPlayButton();
-        UIManager.ShowSettingsButton();
+        UIManager.ShowSoundToggle();
+        UIManager.ShowInfoButton();
         
         TileManager.GenerateStartGrid();
         TileManager.StartGeneration();
@@ -34,7 +35,8 @@ public class SessionManager : MonoBehaviour
     public void StartSession()
     {
         UIManager.HidePlayButton();
-        UIManager.HideSettingsButton();
+        UIManager.HideSoundToggle();
+        UIManager.HideInfoButton();
         UIManager.ShowPauseButton();
         
         CubeManager.DestroyCube(true);
@@ -79,7 +81,7 @@ public class SessionManager : MonoBehaviour
         UIManager.HidePauseMenu();
         UIManager.HideGameOverMenu();
         UIManager.ShowPlayButton();
-        UIManager.ShowSettingsButton();
+        UIManager.ShowSoundToggle();
         
         InputManager.DisableInput();
         TileManager.StopGeneration();

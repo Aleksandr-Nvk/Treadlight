@@ -3,21 +3,16 @@
 1. Add trail to cube that gets more intense/saturated the closer it gets to the edge
 2. Add traces of last playthroughs that fade over time
 3. Add power-up or ability "ghost" and "levitate" (or combination) that allows to go through walls and over holes respectively
-4. Add narration?
 6. Add glowing or particles from holes
-7. Try varied row width
 8. Add sticky tile that slows down the cube’s roll once
 9. Add ice tile that freezes the cube
 10. Add teleport tile?
 11. Add cracking tile that break after being stepped on
 12. Add on/off tiles
 13. Make better death animation
-14. Make the code more callback-based
 
 CRITICAL
 
 1. Add variation to regular tiles and others
-3. Make camera zoom in/out just a little when session is started
 4. Add sounds and vibrations
 5. Add camera shake and zoom in/out on death
-6. Specify SetEase everywhere in code

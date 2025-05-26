@@ -53,7 +53,7 @@ public class CameraFollower : MonoBehaviour
     {
         if (_isIdle)
         {
-            transform.DOMove(transform.position + new Vector3(1f, 0f, 1f) * 0.6f, 1f).SetEase(Ease.Linear);
+            transform.DOMove(transform.position + new Vector3(1f, 0f, 1f) * 0.65f, 1f).SetEase(Ease.Linear);
         }
         else
         {
