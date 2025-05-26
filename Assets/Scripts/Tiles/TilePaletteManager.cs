@@ -1,6 +1,4 @@
-﻿    using System;
-    using System.Collections.Generic;
-    using System.Linq;
+﻿    using System.Linq;
     using UnityEngine;
     using Random = UnityEngine.Random;
 
@@ -11,7 +9,7 @@
             private static TilePaletteManager _instance;
 
             private static string _palettesRaw;
-            private static List<Color> _palette;
+            private static Color[] _palette;
 
             private const int PalettesCount = 462; // very hardcoded value. Predefined in Resources/palettes.txt
             private static int _seed;
@@ -28,11 +26,11 @@
                 return _instance = new TilePaletteManager();
             }
 
-            public List<Color> GetPalette()
+            public Color[] GetPalette()
             {
                 if (_palette is not null) return _palette;
                 
-                var startIndex = _palettesRaw.IndexOf($"{_seed}\n");
+                var startIndex = _palettesRaw.IndexOf($"{_seed}=");
                 startIndex = _palettesRaw.IndexOf('\n', startIndex);
                 var currentIndex = startIndex + 1;
                 var newlineCount = 0;
@@ -53,7 +51,7 @@
                 {
                     ColorUtility.TryParseHtmlString(colorRaw, out var color);
                     return color;
-                }).ToList();
+                }).ToArray();
                 
                 return _palette ??= colorPalette;
             }
