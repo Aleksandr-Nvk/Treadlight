@@ -1,4 +1,5 @@
-﻿using Cube;
+﻿using System;
+using Cube;
 using Tiles;
 using UnityEngine;
 
@@ -8,10 +9,26 @@ public class SessionManager : MonoBehaviour
     [SerializeField] private CubeManager CubeManager;
     [SerializeField] private InputManager InputManager;
     [SerializeField] private UIManager UIManager;
+    [SerializeField] private CameraFollower CameraFollower;
 
     private void Awake()
     {
         CubeManager.OnCubeDestroyed += EndSession;
+    }
+
+    private void Start()
+    {
+        StartPreviewSession();
+    }
+
+    public void StartPreviewSession()
+    {
+        UIManager.ShowPlayButton();
+        UIManager.ShowSettingsButton();
+        
+        TileManager.GenerateStartGrid();
+        TileManager.StartGeneration();
+        CameraFollower.EnableCameraIdle();
     }
 
     public void StartSession()
@@ -23,8 +40,10 @@ public class SessionManager : MonoBehaviour
         CubeManager.DestroyCube(true);
         CubeManager.SpawnCube();
         InputManager.EnableInput();
+        TileManager.ClearGrid();
         TileManager.GenerateStartGrid();
         TileManager.StartGeneration();
+        CameraFollower.DisableCameraIdle();
     }
 
     public void PauseSession()
@@ -66,6 +85,8 @@ public class SessionManager : MonoBehaviour
         TileManager.StopGeneration();
         TileManager.ClearGrid();
         CubeManager.DestroyCube(true);
+        
+        StartPreviewSession();
     }
     
     private void EndSession()

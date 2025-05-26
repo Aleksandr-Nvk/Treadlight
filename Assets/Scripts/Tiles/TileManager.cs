@@ -17,7 +17,7 @@ namespace Tiles
 
         private readonly Vector3 _gridSpawnOffset = new(-30, -1, -30);
     
-        private const float GridAdvanceTimeInterval = 0.35f;
+        private const float GridAdvanceTimeInterval = 0.4f;
 
         private const int InitGridWidth = 25;
         private const int InitGridLength = 70;
@@ -66,7 +66,7 @@ namespace Tiles
             if (!_isGenerationAllowed) return;
         
             _timePassed += Time.deltaTime;
-            if (!(_timePassed >= GridAdvanceTimeInterval)) return;
+            if (_timePassed < GridAdvanceTimeInterval) return;
         
             RemoveLastRow();
             ActiveRows.Enqueue(SpawnRow(_currentIndex));

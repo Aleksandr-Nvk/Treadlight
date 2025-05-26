@@ -84,6 +84,8 @@ namespace Cube
 
         private void HandleCubePosition(int gridRowIndex)
         {
+            if (!Cube.gameObject.activeSelf) return;
+            
             var isCubeInVoid = TileManager.ActiveRows.First().All(tile =>
             {
                 var tilePosition = tile.GameObject.transform.position;

@@ -2114,6 +2114,7 @@ MonoBehaviour:
   CubeManager: {fileID: 708615283}
   InputManager: {fileID: 491994551}
   UIManager: {fileID: 1585340443}
+  CameraFollower: {fileID: 963194229}
 --- !u!4 &2043629568
 Transform:
   m_ObjectHideFlags: 0

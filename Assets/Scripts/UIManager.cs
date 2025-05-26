@@ -29,12 +29,6 @@ public class UIManager : MonoBehaviour
     public void ShowPauseMenu() => ShowMenu(PauseMenu);
     public void HidePauseMenu() => HideMenu(PauseMenu);
 
-    private void Start()
-    {
-        ShowPlayButton();
-		ShowSettingsButton();
-    }
-
     private void HideButton(Button button)
     {
         button.interactable = false;
