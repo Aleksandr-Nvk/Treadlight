@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 452671658596412331}
   - component: {fileID: 4085499783348307165}
   - component: {fileID: 8310627677805048293}
-  - component: {fileID: 5216559054047222447}
   m_Layer: 0
   m_Name: Inner Tile (3)
   m_TagString: Untagged
@@ -87,18 +86,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &5216559054047222447
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 991633724067430459}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3a0f5cfbe4d047b282b22be22a2a8040, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &2017186083220129396
 GameObject:
   m_ObjectHideFlags: 0
@@ -110,7 +97,6 @@ GameObject:
   - component: {fileID: 7108721180216124249}
   - component: {fileID: 1938218108230617879}
   - component: {fileID: 8551984237816511741}
-  - component: {fileID: 3342328133067094802}
   m_Layer: 0
   m_Name: Inner Tile
   m_TagString: Untagged
@@ -186,18 +172,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &3342328133067094802
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2017186083220129396}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3a0f5cfbe4d047b282b22be22a2a8040, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &2344704926809012398
 GameObject:
   m_ObjectHideFlags: 0
@@ -209,7 +183,6 @@ GameObject:
   - component: {fileID: 3480038435569911969}
   - component: {fileID: 1451957018357949269}
   - component: {fileID: 5250982685088246164}
-  - component: {fileID: 5003922727815349253}
   m_Layer: 0
   m_Name: Inner Tile (1)
   m_TagString: Untagged
@@ -285,18 +258,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &5003922727815349253
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2344704926809012398}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3a0f5cfbe4d047b282b22be22a2a8040, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &3359169112458025010
 GameObject:
   m_ObjectHideFlags: 0
@@ -308,7 +269,6 @@ GameObject:
   - component: {fileID: 92560886523738669}
   - component: {fileID: 1603936500266819213}
   - component: {fileID: 8907552152557166833}
-  - component: {fileID: 8371695174351548180}
   m_Layer: 0
   m_Name: Regular Ground Tile
   m_TagString: Untagged
@@ -388,18 +348,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &8371695174351548180
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3359169112458025010}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3a0f5cfbe4d047b282b22be22a2a8040, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &6076510086613685257
 GameObject:
   m_ObjectHideFlags: 0
@@ -411,7 +359,6 @@ GameObject:
   - component: {fileID: 3743274658573822435}
   - component: {fileID: 6156136673181529224}
   - component: {fileID: 3218328600593376264}
-  - component: {fileID: 3672906355418850109}
   m_Layer: 0
   m_Name: Inner Tile (2)
   m_TagString: Untagged
@@ -487,15 +434,3 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &3672906355418850109
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6076510086613685257}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3a0f5cfbe4d047b282b22be22a2a8040, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

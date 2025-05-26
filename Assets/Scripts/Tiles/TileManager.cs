@@ -9,7 +9,7 @@ namespace Tiles
     public class TileManager : MonoBehaviour
     {
         [SerializeField] private TilePool TilePool;
-        [SerializeField] private Cube Cube;
+        [SerializeField] private Cube.Cube Cube;
 
         public Action<int> OnGridAdvanced;
     

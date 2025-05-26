@@ -8,20 +8,19 @@
     {
         public class TilePaletteManager
         {
-            private static List<Color> _palette;
-
             private static TilePaletteManager _instance;
 
             private static string _palettesRaw;
+            private static List<Color> _palette;
 
-            private const int PalettesCount = 462;
+            private const int PalettesCount = 462; // very hardcoded value. Predefined in Resources/palettes.txt
             private static int _seed;
                 
             public static TilePaletteManager GetInstance()
             {
                 if (_instance is not null) return _instance;
                 
-                var textFile = Resources.Load<TextAsset>("colors");
+                var textFile = Resources.Load<TextAsset>("palettes");
                 var fileContent = textFile?.text;
                 _palettesRaw = fileContent;
                 _seed = Random.Range(1, PalettesCount + 1);
@@ -33,20 +32,8 @@
             {
                 if (_palette is not null) return _palette;
                 
-                var startIndex = _palettesRaw.IndexOf($"{_seed}", StringComparison.Ordinal);
-                if (startIndex == -1)
-                {
-                    Debug.Log("Unique number not found.");
-                    return null;
-                }
-
+                var startIndex = _palettesRaw.IndexOf($"{_seed}\n");
                 startIndex = _palettesRaw.IndexOf('\n', startIndex);
-                if (startIndex == -1)
-                {
-                    Debug.Log("No newline after unique number.");
-                    return null;
-                }
-
                 var currentIndex = startIndex + 1;
                 var newlineCount = 0;
                 var endIndex = currentIndex;
@@ -56,11 +43,12 @@
                     {
                         newlineCount++;
                     }
+                    
                     endIndex++;
                 }
 
-                var chunk = _palettesRaw.Substring(currentIndex, endIndex - currentIndex);
-                var colorsRaw = chunk.Split(',');
+                var paletteRaw = _palettesRaw.Substring(currentIndex, endIndex - currentIndex);
+                var colorsRaw = paletteRaw.Split(',');
                 var colorPalette = colorsRaw.Select(colorRaw =>
                 {
                     ColorUtility.TryParseHtmlString(colorRaw, out var color);

@@ -686,6 +686,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Cube: {fileID: 1764732568}
+  InputManager: {fileID: 491994551}
   TileManager: {fileID: 1889215842}
 --- !u!4 &708615284
 Transform:
@@ -1589,7 +1590,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0dbbb727636c42e4f913cc3a7b32ca1a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  InputManager: {fileID: 491994551}
   TileManager: {fileID: 1889215842}
 --- !u!23 &1764732570
 MeshRenderer:

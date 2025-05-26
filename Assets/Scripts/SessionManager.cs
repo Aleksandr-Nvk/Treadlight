@@ -1,4 +1,5 @@
-﻿using Tiles;
+﻿using Cube;
+using Tiles;
 using UnityEngine;
 
 public class SessionManager : MonoBehaviour
@@ -16,7 +17,9 @@ public class SessionManager : MonoBehaviour
     public void StartSession()
     {
         UIManager.HidePlayButton();
+        UIManager.HideSettingsButton();
         UIManager.ShowPauseButton();
+        
         CubeManager.DestroyCube(true);
         CubeManager.SpawnCube();
         InputManager.EnableInput();
@@ -28,6 +31,7 @@ public class SessionManager : MonoBehaviour
     {
         UIManager.HidePauseButton();
         UIManager.ShowPauseMenu();
+        
         InputManager.DisableInput();
         TileManager.StopGeneration();
     }
@@ -36,6 +40,7 @@ public class SessionManager : MonoBehaviour
     {
         UIManager.ShowPauseButton();
         UIManager.HidePauseMenu();
+        
         InputManager.EnableInput();
         TileManager.StartGeneration();
     }
@@ -43,6 +48,7 @@ public class SessionManager : MonoBehaviour
     public void RestartSession()
     {
         UIManager.HideGameOverMenu();
+        
         InputManager.EnableInput();
         TileManager.ClearGrid();
 
@@ -55,6 +61,7 @@ public class SessionManager : MonoBehaviour
         UIManager.HideGameOverMenu();
         UIManager.ShowPlayButton();
         UIManager.ShowSettingsButton();
+        
         InputManager.DisableInput();
         TileManager.StopGeneration();
         TileManager.ClearGrid();
@@ -65,6 +72,7 @@ public class SessionManager : MonoBehaviour
     {
         UIManager.ShowGameOverMenu();
         UIManager.HidePauseButton();
+        
         InputManager.DisableInput();
         TileManager.StopGeneration();
     }

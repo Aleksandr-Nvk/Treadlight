@@ -29,7 +29,6 @@ public class UIManager : MonoBehaviour
     public void ShowPauseMenu() => ShowMenu(PauseMenu);
     public void HidePauseMenu() => HideMenu(PauseMenu);
 
-    // TODO: not sure this should be here?
     private void Start()
     {
         ShowPlayButton();
