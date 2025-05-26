@@ -63,10 +63,16 @@ namespace Tiles
                     colorIndex = 0;
                     for (var i = 0; i < tileObject.transform.childCount; i++)
                     {
-                        if (!(Random.value < TileAnomalyProbability)) continue;
                         var innerRegularTile = tileObject.transform.GetChild(i);
-                        innerRegularTile.localScale = new Vector3(Random.Range(0.1f, 0.5f), Random.Range(1f, 1.1f), Random.Range(0.1f, 0.5f));
-                        innerRegularTile.localPosition += new Vector3(Random.Range(-0.5f, 0.5f), 0f, Random.Range(-0.5f, 0.5f));
+                        if (Random.value > 0.25f)
+                        {
+                            innerRegularTile.gameObject.SetActive(false);
+                        }
+                        else
+                        {
+                            innerRegularTile.localEulerAngles = new Vector3(90f * Random.Range(1, 3), 0f, 90f * Random.Range(1, 3));
+                            innerRegularTile.localPosition += new Vector3(Random.Range(-0.5f, 0.5f), 0f, Random.Range(-0.5f, 0.5f));
+                        }
                     }
                     break;
                 case TileType.Border:
@@ -88,6 +94,7 @@ namespace Tiles
             
                     innerObstacleTile.localPosition += Vector3.up * Random.Range(-0.25f, 0.5f);
                     break;
+                case TileType.Hole:
                 default:
                     throw new ArgumentOutOfRangeException(nameof(type), type, null);
             }
@@ -96,7 +103,7 @@ namespace Tiles
             return tileObject;
         }
 
-    public void RemoveTile(Tile tile)
+        public void RemoveTile(Tile tile)
         {
             tile.GameObject.SetActive(false);
             _pool[tile.Type].Enqueue(tile);
