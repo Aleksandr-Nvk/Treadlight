@@ -11,6 +11,7 @@ namespace Tiles
         [SerializeField] private GameObject BorderGroundTile;
         [SerializeField] private GameObject ObstacleGroundTile;
         [SerializeField] private GameObject HoleGroundTile;
+        [SerializeField] private GameObject StainGroundTile;
 
         private const float TileAnomalyProbability = 0.025f;
         
@@ -22,6 +23,7 @@ namespace Tiles
             _pool[TileType.Border] = new Queue<Tile>();
             _pool[TileType.Obstacle] = new Queue<Tile>();
             _pool[TileType.Hole] = new Queue<Tile>();
+            _pool[TileType.Stain] = new Queue<Tile>();
         }
 
         public Tile GetOrInstantiateTile(TileType type)
@@ -32,6 +34,7 @@ namespace Tiles
                 TileType.Border => BorderGroundTile,
                 TileType.Obstacle => ObstacleGroundTile,
                 TileType.Hole => HoleGroundTile,
+                TileType.Stain => StainGroundTile,
                 _ => throw new ArgumentOutOfRangeException(nameof(type), type, null)
             };
 
@@ -51,8 +54,8 @@ namespace Tiles
 
         private GameObject InstantiateTile(TileType type, GameObject prefab)
         {
-            if (type == TileType.Hole) return Instantiate(prefab, Vector3.zero, Quaternion.identity);
-            
+            if (type is TileType.Hole or TileType.Stain) return Instantiate(prefab, Vector3.zero, Quaternion.identity);
+
             var tilePaletteManager = TilePaletteManager.GetInstance();
             var tileObject = Instantiate(prefab, Vector3.zero, Quaternion.identity);
             int colorIndex;
@@ -94,6 +97,7 @@ namespace Tiles
             
                     innerObstacleTile.localPosition += Vector3.up * Random.Range(-0.25f, 0.5f);
                     break;
+                case TileType.Stain:
                 case TileType.Hole:
                 default:
                     throw new ArgumentOutOfRangeException(nameof(type), type, null);

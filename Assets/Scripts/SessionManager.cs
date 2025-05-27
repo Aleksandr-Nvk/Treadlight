@@ -80,8 +80,8 @@ public class SessionManager : MonoBehaviour
         
         InputManager.EnableInput();
         TileManager.ClearGrid();
-        ScoreManager.SaveHighestScore();
-        
+        ScoreManager.ResetScore();
+
         StartSession();
     }
 
@@ -96,7 +96,6 @@ public class SessionManager : MonoBehaviour
         TileManager.StopGeneration();
         TileManager.ClearGrid();
         CubeManager.DestroyCube(true);
-        ScoreManager.SaveHighestScore();
         ScoreManager.ResetScore();
 
         StartPreviewSession();
@@ -107,6 +106,7 @@ public class SessionManager : MonoBehaviour
         UIManager.ShowGameOverMenu();
         UIManager.HidePauseButton();
         ScoreManager.SaveHighestScore();
+        ScoreManager.ResetScore();
 
         InputManager.DisableInput();
         TileManager.StopGeneration();

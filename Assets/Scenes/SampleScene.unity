@@ -565,6 +565,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   UIManager: {fileID: 1585340443}
+  AudioManager: {fileID: 779926154}
   Cube: {fileID: 1764732568}
 --- !u!1 &491994550
 GameObject:
@@ -1205,6 +1206,7 @@ MonoBehaviour:
   FXSource: {fileID: 755333749}
   RollSound: {fileID: 8300000, guid: 4dab409e70b2c3b4fac4e851b465e903, type: 3}
   DeathSound: {fileID: 8300000, guid: efeb1e6d550b8c04981ca2acc109d5be, type: 3}
+  HighScoreSound: {fileID: 8300000, guid: b38b11ee1d94ce4429b27e346a3c236f, type: 3}
   Cube: {fileID: 1764732568}
   CubeManager: {fileID: 708615283}
 --- !u!1 &963194225
@@ -1585,6 +1587,7 @@ MonoBehaviour:
   BorderGroundTile: {fileID: 3359169112458025010, guid: b9ada0b16d6c5124e96afdeebdc7503f, type: 3}
   ObstacleGroundTile: {fileID: 3359169112458025010, guid: 32d55e78cc9cdfc43b826fa50551cb55, type: 3}
   HoleGroundTile: {fileID: 7755914694181317411, guid: bb3b2e7ed2224a64e8418160805d21fa, type: 3}
+  StainGroundTile: {fileID: 3359169112458025010, guid: 1803170ff00ac884980dc3e7f83c60e2, type: 3}
 --- !u!4 &1376512259
 Transform:
   m_ObjectHideFlags: 0
@@ -2497,6 +2500,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TilePool: {fileID: 1376512258}
   Cube: {fileID: 1764732568}
+  CubeManager: {fileID: 708615283}
 --- !u!1 &1951138612
 GameObject:
   m_ObjectHideFlags: 0

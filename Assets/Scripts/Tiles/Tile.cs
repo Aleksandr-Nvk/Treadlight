@@ -19,6 +19,7 @@ namespace Tiles
         Regular,
         Hole,
         Border,
-        Obstacle
+        Obstacle,
+        Stain
     }
 }

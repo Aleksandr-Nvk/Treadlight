@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using DG.Tweening;
 using Tiles;
@@ -14,7 +15,8 @@ namespace Cube
         [SerializeField] private TileManager TileManager;
     
         [NonSerialized] public Action OnCubeDestroyed;
-    
+        [NonSerialized] public readonly List<Vector3> DeathPositions = new();
+        
         private Vector3 _initCubeParentPosition;
         private Vector3 _initCubePosition;
 
@@ -68,6 +70,7 @@ namespace Cube
                 seq.Append(Cube.transform.DOScale(Vector3.zero, 0.25f));
                 seq.OnComplete(() =>
                 {
+                    DeathPositions.Add(Cube.transform.parent.position);
                     Cube.gameObject.SetActive(false);
                     OnCubeDestroyed?.Invoke();
                 });
@@ -79,6 +82,9 @@ namespace Cube
             if (targetTileType == TileType.Hole)
             {
                 DestroyCube();
+            } else if (targetTileType == TileType.Stain)
+            {
+                DeathPositions.RemoveAt(0);
             }
         }
 
