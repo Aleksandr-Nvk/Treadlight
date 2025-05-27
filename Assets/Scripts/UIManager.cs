@@ -63,15 +63,21 @@ public class UIManager : MonoBehaviour
 
     private void HideText(TMP_Text text)
     {
+        if (!text.gameObject.activeSelf) return;
+        
         var textTransform = text.GetComponent<RectTransform>();;
         var seq = DOTween.Sequence();
         seq.Append(textTransform.DOScale(1.15f, AnimationsDuration / 2f).SetEase(Ease.OutBack));
         seq.Append(textTransform.DOScale(0f, AnimationsDuration).SetEase(Ease.OutBack));
         seq.Join(text.DOFade(0f, AnimationsDuration));
+        seq.OnComplete(() => text.gameObject.SetActive(false));
     }
     
     private void ShowText(TMP_Text text)
     {
+        if (text.gameObject.activeSelf) return;
+
+        text.gameObject.SetActive(true);
         var textTransform = text.GetComponent<RectTransform>();
         var seq = DOTween.Sequence();
         seq.Append(textTransform.DOScale(1.15f, AnimationsDuration / 2f).SetEase(Ease.OutBack));
@@ -81,6 +87,8 @@ public class UIManager : MonoBehaviour
     
     private void HideElement(Selectable element)
     {
+        if (!element.gameObject.activeSelf) return;
+
         element.interactable = false;
         
         var elementTransform = element.GetComponent<RectTransform>();
@@ -93,6 +101,8 @@ public class UIManager : MonoBehaviour
     
     private void ShowElement(Selectable element)
     {
+        if (element.gameObject.activeSelf) return;
+        
         element.gameObject.SetActive(true);
         
         var elementTransform = element.GetComponent<RectTransform>();
@@ -105,6 +115,8 @@ public class UIManager : MonoBehaviour
     
     private void HideMenu(CanvasGroup menu)
     {
+        if (!menu.gameObject.activeSelf) return;
+        
         menu.interactable = false;
         
         var menuTransform = menu.GetComponent<RectTransform>();
@@ -112,11 +124,13 @@ public class UIManager : MonoBehaviour
         seq.Append(menuTransform.DOAnchorPosY(Screen.height / 50f, AnimationsDuration / 2f).SetEase(Ease.OutBack));
         seq.Append(menuTransform.DOAnchorPosY(-Screen.height / 2f, AnimationsDuration).SetEase(Ease.OutBack));
         seq.Join(menu.DOFade(0f, AnimationsDuration).SetEase(Ease.InExpo));
-        seq.OnComplete(() => menuTransform.gameObject.SetActive(false));
+        seq.OnComplete(() => menu.gameObject.SetActive(false));
     }
     
     private void ShowMenu(CanvasGroup menu)
     {
+        if (menu.gameObject.activeSelf) return;
+        
         menu.gameObject.SetActive(true);
         
         var menuTransform = menu.GetComponent<RectTransform>();

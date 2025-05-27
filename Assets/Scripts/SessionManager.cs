@@ -10,7 +10,8 @@ public class SessionManager : MonoBehaviour
     [SerializeField] private InputManager InputManager;
     [SerializeField] private UIManager UIManager;
     [SerializeField] private CameraFollower CameraFollower;
-
+    [SerializeField] private ScoreManager ScoreManager;
+    
     private void Awake()
     {
         CubeManager.OnCubeDestroyed += EndSession;
@@ -28,6 +29,7 @@ public class SessionManager : MonoBehaviour
         UIManager.ShowInfoButton();
         UIManager.ShowScoreCounter();
         UIManager.ShowHighestScoreText();
+        UIManager.SetScoreText(ScoreManager.LoadHighestScore());
         
         TileManager.GenerateStartGrid();
         TileManager.StartGeneration();
@@ -41,7 +43,8 @@ public class SessionManager : MonoBehaviour
         UIManager.HideInfoButton();
         UIManager.ShowPauseButton();
         UIManager.HideHighestScoreText();
-        
+        ScoreManager.ResetScore();
+
         CubeManager.DestroyCube(true);
         CubeManager.SpawnCube();
         InputManager.EnableInput();
@@ -77,7 +80,8 @@ public class SessionManager : MonoBehaviour
         
         InputManager.EnableInput();
         TileManager.ClearGrid();
-
+        ScoreManager.SaveHighestScore();
+        
         StartSession();
     }
 
@@ -92,7 +96,9 @@ public class SessionManager : MonoBehaviour
         TileManager.StopGeneration();
         TileManager.ClearGrid();
         CubeManager.DestroyCube(true);
-        
+        ScoreManager.SaveHighestScore();
+        ScoreManager.ResetScore();
+
         StartPreviewSession();
     }
     
@@ -100,7 +106,8 @@ public class SessionManager : MonoBehaviour
     {
         UIManager.ShowGameOverMenu();
         UIManager.HidePauseButton();
-        
+        ScoreManager.SaveHighestScore();
+
         InputManager.DisableInput();
         TileManager.StopGeneration();
     }
