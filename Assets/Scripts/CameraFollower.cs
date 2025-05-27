@@ -5,9 +5,10 @@ using UnityEngine;
 
 public class CameraFollower : MonoBehaviour
 {
-    [SerializeField] private Transform Target;
+    [SerializeField] private Transform Cube;
     [SerializeField] private CubeManager CubeManager;
-    
+    private Transform _target;
+
     private const float AnimationDuration = 0.5f;
 
     private Camera _camera;
@@ -17,6 +18,7 @@ public class CameraFollower : MonoBehaviour
 
     private bool _isIdle = true;
 
+
     private void Awake()
     {
         CubeManager.OnCubeDestroyed += ZoomOut;
@@ -24,17 +26,17 @@ public class CameraFollower : MonoBehaviour
 
     private void Start()
     {
+        _target = Cube.parent;
         var tilePaletteManager = TilePaletteManager.GetInstance();
         _camera = GetComponent<Camera>();
         _camera.backgroundColor = tilePaletteManager.GetPalette()[3];
-        _positionDelta = transform.position - Target.position;
+        _positionDelta = transform.position - _target.position;
         _initPosition = transform.position;
     }
 
     public void EnableCameraIdle()
     {
-        _isIdle = true;
-        transform.DOMove(_initPosition, AnimationDuration);
+        transform.DOMove(_initPosition, AnimationDuration).OnComplete(() => _isIdle = true);
         ZoomOut();
     }
 
@@ -45,9 +47,9 @@ public class CameraFollower : MonoBehaviour
         ZoomIn();
     }
 
-    public void ZoomIn() => _camera.DOOrthoSize(10, AnimationDuration);
+    public void ZoomIn() => _camera.DOOrthoSize(10, AnimationDuration).SetEase(Ease.OutExpo);
 
-    public void ZoomOut() => _camera.DOOrthoSize(12, AnimationDuration);
+    public void ZoomOut() => _camera.DOOrthoSize(12, AnimationDuration).SetEase(Ease.OutExpo);
 
     private void Update()
     {
@@ -55,9 +57,9 @@ public class CameraFollower : MonoBehaviour
         {
             transform.DOMove(transform.position + new Vector3(1f, 0f, 1f) * 0.65f, 1f).SetEase(Ease.Linear);
         }
-        else
+        else if (Cube.gameObject.activeSelf)
         {
-            transform.DOMove(Target.position + _positionDelta, AnimationDuration);
+            transform.DOMove(_target.position + _positionDelta, AnimationDuration);
         }
     }
 }
