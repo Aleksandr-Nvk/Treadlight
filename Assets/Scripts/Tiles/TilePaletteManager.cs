@@ -63,6 +63,11 @@
 
                 foreach (var childRenderer in gameObject.GetComponentsInChildren<Renderer>())
                 {
+                    Debug.Log(childRenderer.material.shader.name);
+                    if (childRenderer.material.shader.name != "Particles")
+                    {
+                        
+                    }
                     childRenderer.material.color = color;
                 }
             }
