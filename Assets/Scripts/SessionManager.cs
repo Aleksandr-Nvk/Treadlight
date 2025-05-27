@@ -26,6 +26,8 @@ public class SessionManager : MonoBehaviour
         UIManager.ShowPlayButton();
         UIManager.ShowSoundToggle();
         UIManager.ShowInfoButton();
+        UIManager.ShowScoreCounter();
+        UIManager.ShowHighestScoreText();
         
         TileManager.GenerateStartGrid();
         TileManager.StartGeneration();
@@ -38,6 +40,7 @@ public class SessionManager : MonoBehaviour
         UIManager.HideSoundToggle();
         UIManager.HideInfoButton();
         UIManager.ShowPauseButton();
+        UIManager.HideHighestScoreText();
         
         CubeManager.DestroyCube(true);
         CubeManager.SpawnCube();
