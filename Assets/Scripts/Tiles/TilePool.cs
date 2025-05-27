@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -49,6 +50,11 @@ namespace Tiles
                 tileObject = InstantiateTile(type, tilePrefab);
             }
 
+            var tileTransform = tileObject.transform;
+            tileTransform.localScale = Vector3.zero;
+            tileTransform.DOScale(1f, 0.5f * Random.Range(0.5f, 1.5f))
+                         .SetEase(Ease.InOutBounce);
+            
             return new Tile(tileObject, type);
         }
 
@@ -82,8 +88,8 @@ namespace Tiles
                     colorIndex = 1;
                     var innerBorderTile = tileObject.transform.GetChild(0);
                     innerBorderTile.localScale = Random.value < TileAnomalyProbability
-                        ? new Vector3(Random.Range(0.95f, 1f), Random.Range(2f, 8f), Random.Range(0.95f, 1f))
-                        : new Vector3(Random.Range(0.85f, 1.15f), Random.Range(0.85f, 1.15f), Random.Range(0.85f, 1.15f));
+                        ? new Vector3(Random.Range(0.95f, 1f), Random.Range(5f, 10f), Random.Range(0.95f, 1f))
+                        : new Vector3(Random.Range(0.85f, 1.15f), Random.Range(0.5f, 6f), Random.Range(0.85f, 1.15f));
             
                     innerBorderTile.localPosition = new Vector3(Random.Range(0f, 0.25f), Random.Range(0f, 0.25f), Random.Range(0f, 0.25f));
                     tileObject.transform.localScale += Vector3.up * Random.Range(0f, 3f);
@@ -109,8 +115,15 @@ namespace Tiles
 
         public void RemoveTile(Tile tile)
         {
-            tile.GameObject.SetActive(false);
-            _pool[tile.Type].Enqueue(tile);
+            var tileTransform = tile.GameObject.transform;
+            tileTransform.DOScale(0f, 0.5f * Random.Range(0.5f, 1.5f))
+                         .SetEase(Ease.InOutBounce)
+                         .OnComplete(() =>
+                         {
+                             tileTransform.gameObject.SetActive(false);
+                             tileTransform.localScale = Vector3.one;
+                             _pool[tile.Type].Enqueue(tile);
+                         });
         }
     }
 }
