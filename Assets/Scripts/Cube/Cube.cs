@@ -60,6 +60,7 @@ namespace Cube
             {
                 case TileType.Regular:
                 case TileType.Hole:
+                case TileType.Stain:
                     break;
                 case TileType.Border:
                 case TileType.Obstacle:

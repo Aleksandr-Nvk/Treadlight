@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Cube;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -10,6 +11,7 @@ namespace Tiles
     {
         [SerializeField] private TilePool TilePool;
         [SerializeField] private Cube.Cube Cube;
+        [SerializeField] private CubeManager CubeManager;
 
         public Action<int> OnGridAdvanced;
     
@@ -116,9 +118,20 @@ namespace Tiles
                     }
                 }
 
-                var tile = TilePool.GetOrInstantiateTile(tileType);
                 var tilePosX = index / 2 + InitGridWidth - i;
                 var tilePosZ = index / 2 + index % 2 + i + 1;
+                Tile tile;
+                if (CubeManager.DeathPositions.Any(position =>
+                        Mathf.Approximately(position.x, tilePosX + _gridSpawnOffset.x) &&
+                        Mathf.Approximately(position.z, tilePosZ + _gridSpawnOffset.z)))
+                {
+                    tile = TilePool.GetOrInstantiateTile(TileType.Stain);
+                }
+                else
+                {
+                    tile = TilePool.GetOrInstantiateTile(tileType);
+                }
+                
                 tile.GameObject.transform.position = new Vector3(tilePosX, 0, tilePosZ) + _gridSpawnOffset;
                 row.Add(tile);
             }
