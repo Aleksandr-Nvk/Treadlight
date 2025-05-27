@@ -21,7 +21,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TMP_Text HighScoreText;
 
     private const float AnimationsDuration = 0.25f;
-    private const float UITransparencyAlpha = 0.85f;
+    private const float UITransparencyAlpha = 0.75f;
 
     public void HidePlayButton() => HideElement(PlayButton);
     public void ShowPlayButton() => ShowElement(PlayButton);
