@@ -2102,8 +2102,8 @@ MonoBehaviour:
   PlayButton: {fileID: 1559005767}
   PauseButton: {fileID: 1635639868}
   SoundToggle: {fileID: 1287487354}
-  SoundOnSprite: {fileID: 21300000, guid: beca571f15059694f98f47f80a20977b, type: 3}
-  SoundOffSprite: {fileID: 21300000, guid: 886f6b905ad520d4985c77fc74792f08, type: 3}
+  SoundOnSprite: {fileID: 21300000, guid: e307fc0b00aac2248a1182279bad6240, type: 3}
+  SoundOffSprite: {fileID: 21300000, guid: 744c22c1eb23fa645bff5d2bb5ffb97e, type: 3}
   InfoButton: {fileID: 744055613}
   GameOverMenu: {fileID: 1764280387}
   PauseMenu: {fileID: 1370482553}
